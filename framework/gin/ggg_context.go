@@ -29,4 +29,3 @@ func (ctx *Context) MakeNew(key string, params []interface{}) (interface{}, erro
     return ctx.container.MakeNew(key, params)
 }
 
-
