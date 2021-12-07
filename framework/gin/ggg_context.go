@@ -1,6 +1,6 @@
 package gin
 
-import "github.com/gohade/hade/framework"
+import "github.com/reallovelei/ggg/framework"
 
 //  实现在engine 对  container 的绑定封装
 func (engine *Engine) Bind(provider framework.ServiceProvider) error {

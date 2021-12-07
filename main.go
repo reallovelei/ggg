@@ -2,12 +2,13 @@ package main
 
 import (
     "context"
+    "github.com/reallovelei/ggg/app/provider/demo"
+    "github.com/reallovelei/ggg/framework/middleware"
     "log"
     "time"
 
     // "context"
-    "github.com/gohade/hade/framework/gin"
-    "github.com/gohade/hade/framework/middleware"
+    "github.com/reallovelei/ggg/framework/gin"
     "net/http"
     "os"
     "os/signal"
@@ -15,15 +16,21 @@ import (
 )
 
 func main() {
+    // 创建 engine 结构
     core := gin.New()
-    core.Use(gin.Recovery())
-    core.Use(middleware.Cost())
 
-    registerRouter(core)
+
+    // bind service
+    core.Bind(&demo.DemoServiceProvider{})
+
+    core.Use(gin.Recovery())
+
+    core.Use(middleware.Cost())
+    RegisterRouter(core)
 
     server := &http.Server {
         Handler:core,
-        Addr:":9595",
+        Addr:":8888",
     }
 
     // 使用一个协程来 监听服务

@@ -6,7 +6,7 @@ package gin
 
 import (
 	"fmt"
-    "github.com/gohade/hade/framework"
+    "github.com/reallovelei/ggg/framework"
     "html/template"
 	"net"
 	"net/http"
@@ -15,8 +15,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/gohade/hade/framework/gin/internal/bytesconv"
-	"github.com/gohade/hade/framework/gin/render"
+	"github.com/reallovelei/ggg/framework/gin/internal/bytesconv"
+	"github.com/reallovelei/ggg/framework/gin/render"
 )
 
 const defaultMultipartMemory = 32 << 20 // 32 MB

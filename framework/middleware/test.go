@@ -3,7 +3,7 @@ package middleware
 import (
     "fmt"
 
-    "github.com/gohade/hade/framework/gin"
+    "github.com/reallovelei/ggg/framework/gin"
 )
 
 func Test1() gin.HandlerFunc {

@@ -6,7 +6,7 @@ import (
     "log"
     "time"
 
-    "github.com/gohade/hade/framework/gin"
+    "github.com/reallovelei/ggg/framework/gin"
 )
 
 func Timeout(d time.Duration) gin.HandlerFunc {
