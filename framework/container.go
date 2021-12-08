@@ -25,9 +25,9 @@ type Container interface {
 }
 
 
-// HadeContainer 是服务容器的具体实现
-type HadeContainer struct {
-    Container // 强制要求 HadeContainer 实现 Container 接口
+// GGGContainer 是服务容器的具体实现
+type GGGContainer struct {
+    Container // 强制要求 GGGContainer 实现 Container 接口
     // providers 存储注册的服务提供者，key 为字符串凭证 bind 提供者
     providers map[string]ServiceProvider
     // instance 存储具体的服务实例，key 为字符串凭证
@@ -36,9 +36,9 @@ type HadeContainer struct {
     lock sync.RWMutex
 }
 
-// NewHadeContainer 创建一个服务容器
-func NewHadeContainer() *HadeContainer {
-    return &HadeContainer{
+// NewContainer 创建一个服务容器
+func NewContainer() *GGGContainer {
+    return &GGGContainer{
         providers: map[string]ServiceProvider{},
         instances: map[string]interface{}{},
         lock:      sync.RWMutex{},
@@ -46,7 +46,7 @@ func NewHadeContainer() *HadeContainer {
 }
 
 // PrintProviders 输出服务容器中注册的关键字
-func (hade *HadeContainer) PrintProviders() []string {
+func (hade *GGGContainer) PrintProviders() []string {
     ret := []string{}
     for _, provider := range hade.providers {
         name := provider.Name()
@@ -58,7 +58,7 @@ func (hade *HadeContainer) PrintProviders() []string {
 }
 
 // Bind 将服务容器和关键字做了绑定
-func (hade *HadeContainer) Bind(provider ServiceProvider) error {
+func (hade *GGGContainer) Bind(provider ServiceProvider) error {
     // Bind 是写操作, 所以一开头先加上 一把写锁。 RLock是读锁。
     hade.lock.Lock()
     defer hade.lock.Unlock()
@@ -88,11 +88,11 @@ func (hade *HadeContainer) Bind(provider ServiceProvider) error {
     return nil
 }
 
-func (hade *HadeContainer) IsBind(key string) bool {
+func (hade *GGGContainer) IsBind(key string) bool {
     return hade.findServiceProvider(key) != nil
 }
 
-func (hade *HadeContainer) findServiceProvider(key string) ServiceProvider {
+func (hade *GGGContainer) findServiceProvider(key string) ServiceProvider {
     hade.lock.RLock()
     defer hade.lock.RUnlock()
     if sp, ok := hade.providers[key]; ok {
@@ -101,11 +101,11 @@ func (hade *HadeContainer) findServiceProvider(key string) ServiceProvider {
     return nil
 }
 
-func (hade *HadeContainer) Make(key string) (interface{}, error) {
+func (hade *GGGContainer) Make(key string) (interface{}, error) {
     return hade.make(key, nil, false)
 }
 
-func (hade *HadeContainer) MustMake(key string) interface{} {
+func (hade *GGGContainer) MustMake(key string) interface{} {
     serv, err := hade.make(key, nil, false)
     if err != nil {
         panic(err)
@@ -113,11 +113,11 @@ func (hade *HadeContainer) MustMake(key string) interface{} {
     return serv
 }
 
-func (hade *HadeContainer) MakeNew(key string, params []interface{}) (interface{}, error) {
+func (hade *GGGContainer) MakeNew(key string, params []interface{}) (interface{}, error) {
     return hade.make(key, params, true)
 }
 
-func (hade *HadeContainer) newInstance(sp ServiceProvider, params []interface{}) (interface{}, error) {
+func (hade *GGGContainer) newInstance(sp ServiceProvider, params []interface{}) (interface{}, error) {
     // force new a
     if err := sp.Boot(hade); err != nil {
         return nil, err
@@ -134,7 +134,7 @@ func (hade *HadeContainer) newInstance(sp ServiceProvider, params []interface{})
 }
 
 // 真正的实例化一个服务
-func (hade *HadeContainer) make(key string, params []interface{}, forceNew bool) (interface{}, error) {
+func (hade *GGGContainer) make(key string, params []interface{}, forceNew bool) (interface{}, error) {
     hade.lock.RLock()
     defer hade.lock.RUnlock()
     // 查询是否已经注册了这个服务提供者，如果没有注册，则返回错误

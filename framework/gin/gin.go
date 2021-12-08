@@ -158,7 +158,7 @@ func New() *Engine {
 			root:     true,
 		},
 		// 注入容器 container
-		container:framework.NewHadeContainer(),
+		container:framework.NewContainer(),
 		FuncMap:                template.FuncMap{},
 		RedirectTrailingSlash:  true,
 		RedirectFixedPath:      false,

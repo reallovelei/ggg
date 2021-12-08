@@ -1,32 +1,37 @@
 package app
-//
-//import (
-//    "errors"
-//
-//)
-//
-//// HadeAppProvider 提供 App 的具体实现方法
-//type HadeAppProvider struct {
-//    BaseFolder string
-//}
-//
-//
-//
-//// Params 获取初始化参数
-//func (h *HadeAppProvider) Params(container framework.Container) []interface{} {
-//    return []interface{}{container, h.BaseFolder}
-//}
-//
-//
-//
-//// NewHadeApp 初始化 HadeApp
-//func NewHadeApp(params ...interface{}) (interface{}, error) {
-//    if len(params) != 2 {
-//        return nil, errors.New("param error")
-//    }
-//    // 有两个参数，一个是容器，一个是 baseFolder
-//    container := params[0].(framework.Container)
-//    baseFolder := params[1].(string)
-//    return &HadeApp{baseFolder: baseFolder, container: container}, nil
-//}
+
+import (
+    "github.com/reallovelei/ggg/framework"
+    "github.com/reallovelei/ggg/framework/contract"
+)
+
+// GGGAppProvider 提供 App 的具体实现方法
+type GGGAppProvider struct {
+   BasePath string
+}
+
+// Params 获取初始化参数
+func (h *GGGAppProvider) Register(container framework.Container) framework.NewInstance {
+    return NewApp
+}
+
+func (h *GGGAppProvider) Boot(container framework.Container) error {
+    return nil
+}
+
+
+func (h *GGGAppProvider) IsDefer() bool {
+    return false
+}
+
+// Params 获取初始化参数
+func (h *GGGAppProvider) Params(container framework.Container) []interface{} {
+   return []interface{}{container, h.BasePath}
+}
+
+// Name 获取字符串凭证
+func (h *GGGAppProvider) Name() string {
+    return contract.AppKey
+}
+
 
