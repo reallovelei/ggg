@@ -22,8 +22,8 @@ import (
 	"time"
 
 	"github.com/gin-contrib/sse"
-	"github.com/reallovelei/ggg/framework/gin/binding"
 	"github.com/golang/protobuf/proto"
+	"github.com/reallovelei/ggg/framework/gin/binding"
 	"github.com/stretchr/testify/assert"
 
 	testdata "github.com/reallovelei/ggg/framework/gin/testdata/protoexample"
@@ -389,7 +389,7 @@ func TestContextHandler(t *testing.T) {
 
 func TestContextQuery(t *testing.T) {
 	c, _ := CreateTestContext(httptest.NewRecorder())
-	c.Request, _ = http.NewRequest("GET", "http://example.com/?foo=bar&page=10&id=", nil)
+	c.Request, _ = http.NewRequest("GET", "web://example.com/?foo=bar&page=10&id=", nil)
 
 	value, ok := c.GetQuery("foo")
 	assert.True(t, ok)
@@ -700,7 +700,7 @@ func TestContextRenderJSON(t *testing.T) {
 func TestContextRenderJSONP(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := CreateTestContext(w)
-	c.Request, _ = http.NewRequest("GET", "http://example.com/?callback=x", nil)
+	c.Request, _ = http.NewRequest("GET", "web://example.com/?callback=x", nil)
 
 	c.JSONP(http.StatusCreated, H{"foo": "bar"})
 
@@ -714,7 +714,7 @@ func TestContextRenderJSONP(t *testing.T) {
 func TestContextRenderJSONPWithoutCallback(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := CreateTestContext(w)
-	c.Request, _ = http.NewRequest("GET", "http://example.com", nil)
+	c.Request, _ = http.NewRequest("GET", "web://example.com", nil)
 
 	c.JSONP(http.StatusCreated, H{"foo": "bar"})
 
@@ -1105,7 +1105,7 @@ func TestContextRenderRedirectWithRelativePath(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := CreateTestContext(w)
 
-	c.Request, _ = http.NewRequest("POST", "http://example.com", nil)
+	c.Request, _ = http.NewRequest("POST", "web://example.com", nil)
 	assert.Panics(t, func() { c.Redirect(299, "/new_path") })
 	assert.Panics(t, func() { c.Redirect(309, "/new_path") })
 
@@ -1119,19 +1119,19 @@ func TestContextRenderRedirectWithAbsolutePath(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := CreateTestContext(w)
 
-	c.Request, _ = http.NewRequest("POST", "http://example.com", nil)
-	c.Redirect(http.StatusFound, "http://google.com")
+	c.Request, _ = http.NewRequest("POST", "web://example.com", nil)
+	c.Redirect(http.StatusFound, "web://google.com")
 	c.Writer.WriteHeaderNow()
 
 	assert.Equal(t, http.StatusFound, w.Code)
-	assert.Equal(t, "http://google.com", w.Header().Get("Location"))
+	assert.Equal(t, "web://google.com", w.Header().Get("Location"))
 }
 
 func TestContextRenderRedirectWith201(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := CreateTestContext(w)
 
-	c.Request, _ = http.NewRequest("POST", "http://example.com", nil)
+	c.Request, _ = http.NewRequest("POST", "web://example.com", nil)
 	c.Redirect(http.StatusCreated, "/resource")
 	c.Writer.WriteHeaderNow()
 
@@ -1141,7 +1141,7 @@ func TestContextRenderRedirectWith201(t *testing.T) {
 
 func TestContextRenderRedirectAll(t *testing.T) {
 	c, _ := CreateTestContext(httptest.NewRecorder())
-	c.Request, _ = http.NewRequest("POST", "http://example.com", nil)
+	c.Request, _ = http.NewRequest("POST", "web://example.com", nil)
 	assert.Panics(t, func() { c.Redirect(http.StatusOK, "/resource") })
 	assert.Panics(t, func() { c.Redirect(http.StatusAccepted, "/resource") })
 	assert.Panics(t, func() { c.Redirect(299, "/resource") })
@@ -1618,7 +1618,7 @@ func TestContextBadAutoBind(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := CreateTestContext(w)
 
-	c.Request, _ = http.NewRequest("POST", "http://example.com", bytes.NewBufferString("\"foo\":\"bar\", \"bar\":\"foo\"}"))
+	c.Request, _ = http.NewRequest("POST", "web://example.com", bytes.NewBufferString("\"foo\":\"bar\", \"bar\":\"foo\"}"))
 	c.Request.Header.Add("Content-Type", MIMEJSON)
 	var obj struct {
 		Foo string `json:"foo"`
@@ -1751,7 +1751,7 @@ func TestContextBadAutoShouldBind(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := CreateTestContext(w)
 
-	c.Request, _ = http.NewRequest("POST", "http://example.com", bytes.NewBufferString("\"foo\":\"bar\", \"bar\":\"foo\"}"))
+	c.Request, _ = http.NewRequest("POST", "web://example.com", bytes.NewBufferString("\"foo\":\"bar\", \"bar\":\"foo\"}"))
 	c.Request.Header.Add("Content-Type", MIMEJSON)
 	var obj struct {
 		Foo string `json:"foo"`
@@ -1815,7 +1815,7 @@ func TestContextShouldBindBodyWith(t *testing.T) {
 			w := httptest.NewRecorder()
 			c, _ := CreateTestContext(w)
 			c.Request, _ = http.NewRequest(
-				"POST", "http://example.com", bytes.NewBufferString(tt.bodyA),
+				"POST", "web://example.com", bytes.NewBufferString(tt.bodyA),
 			)
 			// When it binds to typeA and typeB, it finds the body is
 			// not typeB but typeA.
@@ -1833,7 +1833,7 @@ func TestContextShouldBindBodyWith(t *testing.T) {
 			w := httptest.NewRecorder()
 			c, _ := CreateTestContext(w)
 			c.Request, _ = http.NewRequest(
-				"POST", "http://example.com", bytes.NewBufferString(tt.bodyB),
+				"POST", "web://example.com", bytes.NewBufferString(tt.bodyB),
 			)
 			objA := typeA{}
 			assert.Error(t, c.ShouldBindBodyWith(&objA, tt.bindingA))
@@ -1869,7 +1869,7 @@ func TestWebsocketsRequired(t *testing.T) {
 	c.Request.Header.Set("Upgrade", "websocket")
 	c.Request.Header.Set("Connection", "Upgrade")
 	c.Request.Header.Set("Sec-WebSocket-Key", "dGhlIHNhbXBsZSBub25jZQ==")
-	c.Request.Header.Set("Origin", "http://example.com")
+	c.Request.Header.Set("Origin", "web://example.com")
 	c.Request.Header.Set("Sec-WebSocket-Protocol", "chat, superchat")
 	c.Request.Header.Set("Sec-WebSocket-Version", "13")
 

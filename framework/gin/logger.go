@@ -78,7 +78,7 @@ type LogFormatterParams struct {
 	Keys map[string]interface{}
 }
 
-// StatusCodeColor is the ANSI color for appropriately logging http status code to a terminal.
+// StatusCodeColor is the ANSI color for appropriately logging web status code to a terminal.
 func (p *LogFormatterParams) StatusCodeColor() string {
 	code := p.StatusCode
 
@@ -94,7 +94,7 @@ func (p *LogFormatterParams) StatusCodeColor() string {
 	}
 }
 
-// MethodColor is the ANSI color for appropriately logging http method to a terminal.
+// MethodColor is the ANSI color for appropriately logging web method to a terminal.
 func (p *LogFormatterParams) MethodColor() string {
 	method := p.Method
 

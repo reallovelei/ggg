@@ -6,8 +6,8 @@ package gin
 
 import (
 	"fmt"
-    "github.com/reallovelei/ggg/framework"
-    "html/template"
+	"github.com/reallovelei/ggg/framework"
+	"html/template"
 	"net"
 	"net/http"
 	"os"
@@ -56,15 +56,15 @@ type RoutesInfo []RouteInfo
 // Engine is the framework's instance, it contains the muxer, middleware and configuration settings.
 // Create an instance of Engine, by using New() or Default()
 type Engine struct {
-    // 加入容器
-    container framework.Container
+	// 加入容器
+	container framework.Container
 
 	RouterGroup
 
 	// Enables automatic redirection if the current route can't be matched but a
 	// handler for the path with (without) the trailing slash exists.
 	// For example if /foo/ is requested but a route only exists for /foo, the
-	// client is redirected to /foo with http status code 301 for GET requests
+	// client is redirected to /foo with web status code 301 for GET requests
 	// and 307 for all other request methods.
 	RedirectTrailingSlash bool
 
@@ -117,7 +117,7 @@ type Engine struct {
 	// as url.Path gonna be used, which is already unescaped.
 	UnescapePathValues bool
 
-	// Value of 'maxMemory' param that is given to http.Request's ParseMultipartForm
+	// Value of 'maxMemory' param that is given to web.Request's ParseMultipartForm
 	// method call.
 	MaxMultipartMemory int64
 
@@ -158,7 +158,7 @@ func New() *Engine {
 			root:     true,
 		},
 		// 注入容器 container
-		container:framework.NewContainer(),
+		container:              framework.NewContainer(),
 		FuncMap:                template.FuncMap{},
 		RedirectTrailingSlash:  true,
 		RedirectFixedPath:      false,
@@ -301,7 +301,7 @@ func (engine *Engine) addRoute(method, path string, handlers HandlersChain) {
 }
 
 // Routes returns a slice of registered routes, including some useful information, such as:
-// the http method, path and the handler name.
+// the web method, path and the handler name.
 func (engine *Engine) Routes() (routes RoutesInfo) {
 	for _, tree := range engine.trees {
 		routes = iterate("", tree.method, routes, tree.root)
@@ -326,8 +326,8 @@ func iterate(path, method string, routes RoutesInfo, root *node) RoutesInfo {
 	return routes
 }
 
-// Run attaches the router to a http.Server and starts listening and serving HTTP requests.
-// It is a shortcut for http.ListenAndServe(addr, router)
+// Run attaches the router to a web.Server and starts listening and serving HTTP requests.
+// It is a shortcut for web.ListenAndServe(addr, router)
 // Note: this method will block the calling goroutine indefinitely unless an error happens.
 func (engine *Engine) Run(addr ...string) (err error) {
 	defer func() { debugPrintError(err) }()
@@ -386,8 +386,8 @@ func parseIP(ip string) net.IP {
 	return parsedIP
 }
 
-// RunTLS attaches the router to a http.Server and starts listening and serving HTTPS (secure) requests.
-// It is a shortcut for http.ListenAndServeTLS(addr, certFile, keyFile, router)
+// RunTLS attaches the router to a web.Server and starts listening and serving HTTPS (secure) requests.
+// It is a shortcut for web.ListenAndServeTLS(addr, certFile, keyFile, router)
 // Note: this method will block the calling goroutine indefinitely unless an error happens.
 func (engine *Engine) RunTLS(addr, certFile, keyFile string) (err error) {
 	debugPrint("Listening and serving HTTPS on %s\n", addr)
@@ -397,7 +397,7 @@ func (engine *Engine) RunTLS(addr, certFile, keyFile string) (err error) {
 	return
 }
 
-// RunUnix attaches the router to a http.Server and starts listening and serving HTTP requests
+// RunUnix attaches the router to a web.Server and starts listening and serving HTTP requests
 // through the specified unix socket (ie. a file).
 // Note: this method will block the calling goroutine indefinitely unless an error happens.
 func (engine *Engine) RunUnix(file string) (err error) {
@@ -415,7 +415,7 @@ func (engine *Engine) RunUnix(file string) (err error) {
 	return
 }
 
-// RunFd attaches the router to a http.Server and starts listening and serving HTTP requests
+// RunFd attaches the router to a web.Server and starts listening and serving HTTP requests
 // through the specified file descriptor.
 // Note: this method will block the calling goroutine indefinitely unless an error happens.
 func (engine *Engine) RunFd(fd int) (err error) {
@@ -432,7 +432,7 @@ func (engine *Engine) RunFd(fd int) (err error) {
 	return
 }
 
-// RunListener attaches the router to a http.Server and starts listening and serving HTTP requests
+// RunListener attaches the router to a web.Server and starts listening and serving HTTP requests
 // through the specified net.Listener
 func (engine *Engine) RunListener(listener net.Listener) (err error) {
 	debugPrint("Listening and serving HTTP on listener what's bind with address@%s", listener.Addr())
@@ -441,7 +441,7 @@ func (engine *Engine) RunListener(listener net.Listener) (err error) {
 	return
 }
 
-// ServeHTTP conforms to the http.Handler interface.
+// ServeHTTP conforms to the web.Handler interface.
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	c := engine.pool.Get().(*Context)
 	c.writermem.reset(w)

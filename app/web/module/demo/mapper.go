@@ -1,7 +1,7 @@
 package demo
 
 import (
-	demoService "github.com/gohade/hade/app/provider/demo"
+	demoService "github.com/reallovelei/ggg/app/provider/demo"
 )
 
 func UserModelsToUserDTOs(models []UserModel) []UserDTO {

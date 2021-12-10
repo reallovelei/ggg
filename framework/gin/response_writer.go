@@ -26,7 +26,7 @@ type ResponseWriter interface {
 	// Returns the HTTP response status code of the current request.
 	Status() int
 
-	// Returns the number of bytes already written into the response http body.
+	// Returns the number of bytes already written into the response web body.
 	// See Written()
 	Size() int
 
@@ -36,10 +36,10 @@ type ResponseWriter interface {
 	// Returns true if the response body was already written.
 	Written() bool
 
-	// Forces to write the http header (status code + headers).
+	// Forces to write the web header (status code + headers).
 	WriteHeaderNow()
 
-	// get the http.Pusher for server push
+	// get the web.Pusher for server push
 	Pusher() http.Pusher
 }
 
@@ -99,7 +99,7 @@ func (w *responseWriter) Written() bool {
 	return w.size != noWritten
 }
 
-// Hijack implements the http.Hijacker interface.
+// Hijack implements the web.Hijacker interface.
 func (w *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	if w.size < 0 {
 		w.size = 0
@@ -107,12 +107,12 @@ func (w *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 	return w.ResponseWriter.(http.Hijacker).Hijack()
 }
 
-// CloseNotify implements the http.CloseNotify interface.
+// CloseNotify implements the web.CloseNotify interface.
 func (w *responseWriter) CloseNotify() <-chan bool {
 	return w.ResponseWriter.(http.CloseNotifier).CloseNotify()
 }
 
-// Flush implements the http.Flush interface.
+// Flush implements the web.Flush interface.
 func (w *responseWriter) Flush() {
 	w.WriteHeaderNow()
 	w.ResponseWriter.(http.Flusher).Flush()

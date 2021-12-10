@@ -1,8 +1,8 @@
-package http
+package web
 
 import "github.com/reallovelei/ggg/framework/gin"
 
-func NewHttpEngin() (*gin.Engine, error) {
+func NewHttpEngine() (*gin.Engine, error) {
 	// 设置为Release模式，默认在启动中不输出调试信息
 	gin.SetMode(gin.ReleaseMode)
 	// 默认启动一个web 引擎

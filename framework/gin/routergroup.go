@@ -88,7 +88,7 @@ func (group *RouterGroup) handle(httpMethod, relativePath string, handlers Handl
 // communication with a proxy).
 func (group *RouterGroup) Handle(httpMethod, relativePath string, handlers ...HandlerFunc) IRoutes {
 	if matches, err := regexp.MatchString("^[A-Z]+$", httpMethod); !matches || err != nil {
-		panic("http method " + httpMethod + " is not valid")
+		panic("web method " + httpMethod + " is not valid")
 	}
 	return group.handle(httpMethod, relativePath, handlers)
 }
@@ -158,7 +158,7 @@ func (group *RouterGroup) StaticFile(relativePath, filepath string) IRoutes {
 }
 
 // Static serves files from the given file system root.
-// Internally a http.FileServer is used, therefore http.NotFound is used instead
+// Internally a web.FileServer is used, therefore web.NotFound is used instead
 // of the Router's NotFound handler.
 // To use the operating system's file system implementation,
 // use :
@@ -167,7 +167,7 @@ func (group *RouterGroup) Static(relativePath, root string) IRoutes {
 	return group.StaticFS(relativePath, Dir(root, false))
 }
 
-// StaticFS works just like `Static()` but a custom `http.FileSystem` can be used instead.
+// StaticFS works just like `Static()` but a custom `web.FileSystem` can be used instead.
 // Gin by default user: gin.Dir()
 func (group *RouterGroup) StaticFS(relativePath string, fs http.FileSystem) IRoutes {
 	if strings.Contains(relativePath, ":") || strings.Contains(relativePath, "*") {

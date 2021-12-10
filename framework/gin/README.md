@@ -99,7 +99,7 @@ import "github.com/gin-gonic/gin"
 3. (Optional) Import `net/http`. This is required for example if using constants such as `http.StatusOK`.
 
 ```go
-import "net/http"
+import "net/web"
 ```
 
 ## Quick start
@@ -1383,7 +1383,7 @@ main.go
 import (
     "fmt"
     "html/template"
-    "net/http"
+    "net/web"
     "time"
 
     "github.com/gin-gonic/gin"
@@ -1434,7 +1434,7 @@ Issuing a HTTP redirect is easy. Both internal and external locations are suppor
 
 ```go
 r.GET("/test", func(c *gin.Context) {
-	c.Redirect(http.StatusMovedPermanently, "http://www.google.com/")
+	c.Redirect(http.StatusMovedPermanently, "web://www.google.com/")
 })
 ```
 
@@ -2067,7 +2067,7 @@ In the example below, we log all routes with standard log package but you can us
 ```go
 import (
 	"log"
-	"net/http"
+	"net/web"
 
 	"github.com/gin-gonic/gin"
 )

@@ -7,8 +7,8 @@ package gin
 import (
 	"errors"
 	"fmt"
-    "github.com/reallovelei/ggg/framework"
-    "io"
+	"github.com/reallovelei/ggg/framework"
+	"io"
 	"io/ioutil"
 	"math"
 	"mime/multipart"
@@ -45,8 +45,8 @@ const abortIndex int8 = math.MaxInt8 / 2
 // Context is the most important part of gin. It allows us to pass variables between middleware,
 // manage the flow, validate the JSON of a request and render a JSON response for example.
 type Context struct {
-    // 在Context 中保存容器
-    container framework.Container
+	// 在Context 中保存容器
+	container framework.Container
 	writermem responseWriter
 	Request   *http.Request
 	Writer    ResponseWriter
@@ -827,7 +827,7 @@ func (c *Context) requestHeader(key string) string {
 /******** RESPONSE RENDERING ********/
 /************************************/
 
-// bodyAllowedForStatus is a copy of http.bodyAllowedForStatus non-exported function.
+// bodyAllowedForStatus is a copy of web.bodyAllowedForStatus non-exported function.
 func bodyAllowedForStatus(status int) bool {
 	switch {
 	case status >= 100 && status <= 199:
@@ -1024,7 +1024,7 @@ func (c *Context) File(filepath string) {
 	http.ServeFile(c.Writer, c.Request, filepath)
 }
 
-// FileFromFS writes the specified file from http.FileSystem into the body stream in an efficient way.
+// FileFromFS writes the specified file from web.FileSystem into the body stream in an efficient way.
 func (c *Context) FileFromFS(filepath string, fs http.FileSystem) {
 	defer func(old string) {
 		c.Request.URL.Path = old

@@ -104,7 +104,7 @@ func StaticFile(relativePath, filepath string) gin.IRoutes {
 }
 
 // Static serves files from the given file system root.
-// Internally a http.FileServer is used, therefore http.NotFound is used instead
+// Internally a web.FileServer is used, therefore web.NotFound is used instead
 // of the Router's NotFound handler.
 // To use the operating system's file system implementation,
 // use :
@@ -130,28 +130,28 @@ func Routes() gin.RoutesInfo {
 	return engine().Routes()
 }
 
-// Run attaches to a http.Server and starts listening and serving HTTP requests.
-// It is a shortcut for http.ListenAndServe(addr, router)
+// Run attaches to a web.Server and starts listening and serving HTTP requests.
+// It is a shortcut for web.ListenAndServe(addr, router)
 // Note: this method will block the calling goroutine indefinitely unless an error happens.
 func Run(addr ...string) (err error) {
 	return engine().Run(addr...)
 }
 
-// RunTLS attaches to a http.Server and starts listening and serving HTTPS requests.
-// It is a shortcut for http.ListenAndServeTLS(addr, certFile, keyFile, router)
+// RunTLS attaches to a web.Server and starts listening and serving HTTPS requests.
+// It is a shortcut for web.ListenAndServeTLS(addr, certFile, keyFile, router)
 // Note: this method will block the calling goroutine indefinitely unless an error happens.
 func RunTLS(addr, certFile, keyFile string) (err error) {
 	return engine().RunTLS(addr, certFile, keyFile)
 }
 
-// RunUnix attaches to a http.Server and starts listening and serving HTTP requests
+// RunUnix attaches to a web.Server and starts listening and serving HTTP requests
 // through the specified unix socket (ie. a file)
 // Note: this method will block the calling goroutine indefinitely unless an error happens.
 func RunUnix(file string) (err error) {
 	return engine().RunUnix(file)
 }
 
-// RunFd attaches the router to a http.Server and starts listening and serving HTTP requests
+// RunFd attaches the router to a web.Server and starts listening and serving HTTP requests
 // through the specified file descriptor.
 // Note: the method will block the calling goroutine indefinitely unless on error happens.
 func RunFd(fd int) (err error) {

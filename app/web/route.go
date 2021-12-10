@@ -1,7 +1,7 @@
-package http
+package web
 
 import (
-	"github.com/reallovelei/ggg/app/http/module/demo"
+	"github.com/reallovelei/ggg/app/web/module/demo"
 	"github.com/reallovelei/ggg/framework/gin"
 )
 

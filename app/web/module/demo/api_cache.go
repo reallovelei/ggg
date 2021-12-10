@@ -1,9 +1,9 @@
 package demo
 
 import (
-	"github.com/gohade/hade/framework/contract"
-	"github.com/gohade/hade/framework/gin"
-	"github.com/gohade/hade/framework/provider/redis"
+	"github.com/reallovelei/ggg/framework/contract"
+	"github.com/reallovelei/ggg/framework/gin"
+	"github.com/reallovelei/ggg/framework/provider/redis"
 	"time"
 )
 

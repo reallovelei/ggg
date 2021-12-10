@@ -1,9 +1,9 @@
 package command
 
 import (
-	"github.com/gohade/hade/framework/command"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/cobra"
+	"github.com/reallovelei/ggg/framework/command"
 )
 
 func RunCommand(container framework.Container) error {

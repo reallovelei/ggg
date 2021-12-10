@@ -1,8 +1,8 @@
 package demo
 
 import (
-	demoService "github.com/gohade/hade/app/provider/demo"
-	"github.com/gohade/hade/framework/gin"
+	demoService "github.com/reallovelei/ggg/app/provider/demo"
+	"github.com/reallovelei/ggg/framework/gin"
 )
 
 type DemoApi struct {
