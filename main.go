@@ -2,8 +2,9 @@ package main
 
 import (
     "context"
-    "github.com/reallovelei/ggg/app/provider/demo"
+    "github.com/reallovelei/ggg/framework"
     "github.com/reallovelei/ggg/framework/middleware"
+    "github.com/reallovelei/ggg/framework/provider/app"
     "log"
     "time"
 
@@ -16,12 +17,20 @@ import (
 )
 
 func main() {
+    // 初始化服务容器
+    container := framework.NewContainer()
+
+    // 绑定服务提供者
+    container.Bind(&app.GGGAppProvider{})
+
+
+    if engine, err := http.
     // 创建 engine 结构
     core := gin.New()
 
 
     // bind service
-    core.Bind(&demo.DemoServiceProvider{})
+    core.Bind(&app.GGGAppProvider{BasePath:"/tmp"})
 
     core.Use(gin.Recovery())
 
