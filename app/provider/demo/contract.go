@@ -5,14 +5,15 @@ package demo
 // 2. 定义接口
 
 // Demo 服务的 key  就是所谓的凭证。
-const Key = "ggg:demo"
+const DemoKey = "ggg:demo"
 
 // Demo 服务的接口
 type Service interface {
-    GetFoo() Foo
+	GetAllStudent() []Student
 }
 
 // Demo 服务接口定义的一个数据结构
-type Foo struct {
-    Name string
+type Student struct {
+	ID   int
+	Name string
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/reallovelei/ggg/app/command"
+	"github.com/reallovelei/ggg/app/web"
 	"github.com/reallovelei/ggg/framework"
 
 	"github.com/reallovelei/ggg/framework/provider/app"

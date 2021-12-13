@@ -1,6 +1,7 @@
 package command
 
 import (
+	"github.com/reallovelei/ggg/app/command/demo"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/cobra"
 	"github.com/reallovelei/ggg/framework/command"
@@ -30,4 +31,10 @@ func RunCommand(container framework.Container) error {
 
 	// 执行RootCommand
 	return rootCmd.Execute()
+}
+
+// 绑定业务的命令
+func AddAppCommand(rootCmd *cobra.Command) {
+	//  demo 例子
+	rootCmd.AddCommand(demo.InitFoo())
 }

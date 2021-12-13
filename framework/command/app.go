@@ -1,69 +1,70 @@
 package command
 
 import (
-    "github.com/reallovelei/ggg/framework/cobra"
-    "github.com/reallovelei/ggg/framework/contract"
-    "log"
-    "net/http"
-    "os"
-    "os/signal"
-    "syscall"
-    "time"
+	"context"
+	"github.com/reallovelei/ggg/framework/cobra"
+	"github.com/reallovelei/ggg/framework/contract"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 var appCommand = &cobra.Command{
-    Use: "app",
-    Short: "业务应用控制命令",
-    RunE: func(c *cobra.Command, args []string) error {
-        // 打印帮助文档
-        c.Help()
-        return nil
-        },
+	Use:   "app",
+	Short: "业务应用控制命令",
+	RunE: func(c *cobra.Command, args []string) error {
+		// 打印帮助文档
+		c.Help()
+		return nil
+	},
 }
 
 // appStartCommand 启动一个Web服务
 var appStartCommand = &cobra.Command{
-    Use:   "start",
-    Short: "启动一个Web服务",
-    RunE: func(c *cobra.Command, args []string) error {
-        // 从Command中获取服务容器
-        container := c.GetContainer()
-        // 从服务容器中获取kernel的服务实例
-        kernelService := container.MustMake(contract.KernelKey).(contract.Kernel)
-        // 从kernel服务实例中获取引擎
-        core := kernelService.HttpEngine()
+	Use:   "start",
+	Short: "启动一个Web服务",
+	RunE: func(c *cobra.Command, args []string) error {
+		// 从Command中获取服务容器
+		container := c.GetContainer()
+		// 从服务容器中获取kernel的服务实例
+		kernelService := container.MustMake(contract.KernelKey).(contract.Kernel)
+		// 从kernel服务实例中获取引擎
+		core := kernelService.HttpEngine()
 
-        // 创建一个Server服务
-        server := &http.Server{
-            Handler: core,
-            Addr:    ":8888",
-        }
+		// 创建一个Server服务
+		server := &http.Server{
+			Handler: core,
+			Addr:    ":8888",
+		}
 
-        // 这个goroutine是启动服务的goroutine
-        go func() {
-            server.ListenAndServe()
-        }()
+		// 这个goroutine是启动服务的goroutine
+		go func() {
+			server.ListenAndServe()
+		}()
 
-        // 当前的goroutine等待信号量
-        quit := make(chan os.Signal)
-        // 监控信号：SIGINT, SIGTERM, SIGQUIT
-        signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-        // 这里会阻塞当前goroutine等待信号
-        <-quit
+		// 当前的goroutine等待信号量
+		quit := make(chan os.Signal)
+		// 监控信号：SIGINT, SIGTERM, SIGQUIT
+		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+		// 这里会阻塞当前goroutine等待信号
+		<-quit
 
-        // 调用Server.Shutdown graceful结束
-        timeoutCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-        defer cancel()
+		// 调用Server.Shutdown graceful结束
+		timeoutCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
 
-        if err := server.Shutdown(timeoutCtx); err != nil {
-            log.Fatal("Server Shutdown:", err)
-        }
+		if err := server.Shutdown(timeoutCtx); err != nil {
+			log.Fatal("Server Shutdown:", err)
+		}
 
-        return nil
-    },
+		return nil
+	},
 }
 
-
 func initAppCommand() *cobra.Command {
-    appCommand.AddCommand(appS)
+	appCommand.AddCommand(appStartCommand)
+	return appCommand
 }
