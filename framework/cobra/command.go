@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/reallovelei/ggg/framework"
+	"github.com/robfig/cron/v3"
 	"io"
 	"os"
 	"path/filepath"
@@ -46,10 +47,17 @@ type Command struct {
 	//   { } delimits a set of mutually exclusive arguments when one of the arguments is required. If the arguments are
 	//       optional, they are enclosed in brackets ([ ]).
 
-	// 服务容器
-	container framework.Container
 	// Example: add [-F file | -D dir]... [-f format] profile
 	Use string
+
+	// 服务容器
+	container framework.Container
+
+	// Command支持cron，只在RootCommand中有这个值
+	Cron *cron.Cron
+
+	// 对应Cron命令的说明文档
+	CronSpecs []CronSpec
 
 	// Aliases is an array of aliases that can be used instead of the first word in Use.
 	Aliases []string

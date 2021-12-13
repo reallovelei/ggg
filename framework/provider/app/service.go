@@ -2,7 +2,6 @@ package app
 
 import (
 	"errors"
-	"flag"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/util"
 	"path/filepath"
@@ -12,75 +11,76 @@ import (
 type GGGApp struct {
 	container framework.Container // 服务容器
 	basePath  string              // 基础路径
+	appID     string              // 表示当前这个app的唯一id, 可以用于分布式锁等
 }
 
 // Version 实现版本
-func (h GGGApp) Version() string {
+func (g GGGApp) Version() string {
 	return "0.0.1"
 }
 
 // BasePath 表示基础目录，可以代表开发场景的目录，也可以代表运行时候的目录
-func (h GGGApp) BasePath() string {
-	if h.basePath != "" {
-		return h.basePath
+func (g GGGApp) BasePath() string {
+	if g.basePath != "" {
+		return g.basePath
 	}
 
-	// 如果没有设置，从参数获取
-	var basePath string
-	flag.StringVar(&basePath, "base_path", "", "base_path参数，默认为当前路径")
-	flag.Parse()
-	if basePath != "" {
-		return basePath
-	}
+	//// 如果没有设置，从参数获取
+	//var basePath string
+	//flag.StringVar(&basePath, "base_path", "", "base_path参数，默认为当前路径")
+	//flag.Parse()
+	//if basePath != "" {
+	//	return basePath
+	//}
 
 	return util.GetExecDirectory()
 }
 
 // ConfigPath  表示配置文件地址
-func (h GGGApp) ConfigPath() string {
-	return filepath.Join(h.BasePath(), "config")
+func (g GGGApp) ConfigPath() string {
+	return filepath.Join(g.BasePath(), "config")
 }
 
 // LogPath 表示日志存放地址
-func (h GGGApp) LogPath() string {
-	return filepath.Join(h.StoragePath(), "log")
+func (g GGGApp) LogPath() string {
+	return filepath.Join(g.StoragePath(), "log")
 }
 
-func (h GGGApp) HttpPath() string {
-	return filepath.Join(h.BasePath(), "web")
+func (g GGGApp) HttpPath() string {
+	return filepath.Join(g.BasePath(), "web")
 }
 
-func (h GGGApp) ConsolePath() string {
-	return filepath.Join(h.BasePath(), "console")
+func (g GGGApp) ConsolePath() string {
+	return filepath.Join(g.BasePath(), "console")
 }
 
-func (h GGGApp) StoragePath() string {
-	return filepath.Join(h.BasePath(), "storage")
+func (g GGGApp) StoragePath() string {
+	return filepath.Join(g.BasePath(), "storage")
 }
 
 // ProviderPath 定义业务自己的服务提供者地址
-func (h GGGApp) ProviderPath() string {
-	return filepath.Join(h.BasePath(), "provider")
+func (g GGGApp) ProviderPath() string {
+	return filepath.Join(g.BasePath(), "provider")
 }
 
 // MiddlewarePath 定义业务自己定义的中间件
-func (h GGGApp) MiddlewarePath() string {
-	return filepath.Join(h.HttpPath(), "middleware")
+func (g GGGApp) MiddlewarePath() string {
+	return filepath.Join(g.HttpPath(), "middleware")
 }
 
 // CommandPath 定义业务定义的命令
-func (h GGGApp) CommandPath() string {
-	return filepath.Join(h.ConsolePath(), "command")
+func (g GGGApp) CommandPath() string {
+	return filepath.Join(g.ConsolePath(), "command")
 }
 
 // RuntimePath 定义业务的运行中间态信息
-func (h GGGApp) RuntimePath() string {
-	return filepath.Join(h.StoragePath(), "runtime")
+func (g GGGApp) RuntimePath() string {
+	return filepath.Join(g.StoragePath(), "runtime")
 }
 
 // TestPath 定义测试需要的信息
-func (h GGGApp) TestPath() string {
-	return filepath.Join(h.BasePath(), "test")
+func (g GGGApp) TestPath() string {
+	return filepath.Join(g.BasePath(), "test")
 }
 
 // NewGggApp 初始化 GggApp
@@ -92,4 +92,8 @@ func NewApp(params ...interface{}) (interface{}, error) {
 	container := params[0].(framework.Container)
 	basePath := params[1].(string)
 	return &GGGApp{basePath: basePath, container: container}, nil
+}
+
+func (g GGGApp) AppID() string {
+	return g.appID
 }

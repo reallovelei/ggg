@@ -1,9 +1,10 @@
 package command
 
 import (
-    "github.com/reallovelei/ggg/framework/cobra"
+	"github.com/reallovelei/ggg/framework/cobra"
 )
 
 func AddKernelCommands(root *cobra.Command) {
-    root.AddCommand(ExampleCommand)
+	root.AddCommand(initAppCommand())
+	root.AddCommand(initCronCommand())
 }

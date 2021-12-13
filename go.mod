@@ -3,11 +3,15 @@ module github.com/reallovelei/ggg
 go 1.13
 
 require (
+	github.com/erikdubbelboer/gspt v0.0.0-20210805194459-ce36a5128377
 	github.com/gin-contrib/sse v0.1.0
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/golang/protobuf v1.5.2
 	github.com/json-iterator/go v1.1.11
 	github.com/mattn/go-isatty v0.0.12
+	github.com/pkg/errors v0.8.1
+	github.com/robfig/cron/v3 v3.0.0
+	github.com/sevlyar/go-daemon v0.1.5
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5
