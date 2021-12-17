@@ -35,8 +35,8 @@ var Foo1Command = &cobra.Command{
 	Aliases: []string{"fo1", "f1"},
 	Example: "foo1命令的例子",
 	RunE: func(c *cobra.Command, args []string) error {
-		container := c.GetContainer()
-		log.Println(container)
+		//container := c.GetContainer()
+		log.Println("This is Demo1 Command")
 		return nil
 	},
 }
