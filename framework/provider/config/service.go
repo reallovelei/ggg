@@ -142,6 +142,12 @@ func NewGGGConfig(params ...interface{}) (interface{}, error) {
 		return nil, err
 	}
 
+	// 添加监听目录
+	err = watch.Add(envPath)
+	if err != nil {
+		return nil, err
+	}
+
 	go func() {
 		defer func() {
 			if err := recover(); err != nil {

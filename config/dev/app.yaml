@@ -1,4 +1,4 @@
-url: http://127.0.0.1:8066
+url: http://127.0.0.1:8888
 
 swagger_open: true
 
@@ -11,6 +11,6 @@ path:
 mysql:
     hostname: 127.0.0.1
     username: yejianfeng
-    password: 456789
+    password: 123
     timeout: 1
     readtime: 2.3
