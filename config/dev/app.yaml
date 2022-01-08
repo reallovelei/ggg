@@ -1,0 +1,9 @@
+url: http://127.0.0.1:8066
+
+swagger_open: true
+
+dev_fresh: 1
+
+path:
+    log_folder: "/Users/Ben/work/wangxiao/ggg-frame/log/"
+    runtime_folder: "/Users/Ben/work/wangxiao/ggg-frame/runtime/"

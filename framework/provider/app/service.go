@@ -2,6 +2,8 @@ package app
 
 import (
 	"errors"
+	"flag"
+	"github.com/google/uuid"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/util"
 	"path/filepath"
@@ -11,7 +13,8 @@ import (
 type GGGApp struct {
 	container framework.Container // 服务容器
 	basePath  string              // 基础路径
-	appID     string              // 表示当前这个app的唯一id, 可以用于分布式锁等
+	appId     string              // 表示当前这个app的唯一id, 可以用于分布式锁等
+	configMap map[string]string   // 配置
 }
 
 // Version 实现版本
@@ -91,9 +94,24 @@ func NewApp(params ...interface{}) (interface{}, error) {
 	// 有两个参数，一个是容器，一个是 basePath
 	container := params[0].(framework.Container)
 	basePath := params[1].(string)
-	return &GGGApp{basePath: basePath, container: container}, nil
+	// 如果没有设置，则使用参数
+	if basePath == "" {
+		flag.StringVar(&basePath, "base_path", "", "base_path参数, 默认为当前路径")
+		flag.Parse()
+	}
+
+	appId := uuid.New().String()
+	configMap := map[string]string{}
+
+	return &GGGApp{basePath: basePath, container: container, appId: appId, configMap: configMap}, nil
 }
 
 func (g GGGApp) AppID() string {
-	return g.appID
+	return g.appId
+}
+
+func (g GGGApp) LoadAppConfig(kv map[string]string) {
+	for key, val := range kv {
+		g.configMap[key] = val
+	}
 }

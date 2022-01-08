@@ -6,3 +6,8 @@
 * 框架协议的关键字，我希望使用 contract.xxx 这个语义来区分，比如 App 服务的接口为 contract.App、日志服务的接口为 contract.Log，它们的 namespace 都是 contract，这样在使用的时候记忆成本会比较低。
 * 将框架提供的所有接口协议都放在一个文件夹中，在阅读框架提供哪些服务的时候，也更清晰明了。
 
+## 编译
+```
+go build
+./ggg
+```

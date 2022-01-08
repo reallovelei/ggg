@@ -72,9 +72,13 @@ var cronStartCommand = &cobra.Command{
 		// 设置cron的日志地址和进程id地址
 		pidPath := appService.RuntimePath()
 		serverPidFile := filepath.Join(pidPath, "cron.pid")
+		// 日志路径
 		logPath := appService.LogPath()
+		fmt.Printf("logPath:%s \n", logPath)
+
 		serverLogFile := filepath.Join(logPath, "cron.log")
 		currentPath := appService.BasePath()
+		fmt.Printf("currentPath:%s \n", currentPath)
 
 		// deamon 模式
 		if cronDaemon {

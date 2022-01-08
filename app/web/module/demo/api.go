@@ -2,6 +2,7 @@ package demo
 
 import (
 	demoService "github.com/reallovelei/ggg/app/provider/demo"
+	"github.com/reallovelei/ggg/framework/contract"
 	"github.com/reallovelei/ggg/framework/gin"
 )
 
@@ -34,7 +35,9 @@ func NewDemoApi() *DemoApi {
 // @Success 200 array []UserDTO
 // @Router /demo/demo [get]
 func (api *DemoApi) Demo(c *gin.Context) {
-	c.JSON(200, "this is demo for dev all")
+	configService := c.MustMake(contract.ConfigKey).(contract.Config)
+	pwd := configService.GetString("app.mysql.password")
+	c.JSON(200, pwd)
 }
 
 // Demo2  for godoc

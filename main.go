@@ -4,9 +4,8 @@ import (
 	"github.com/reallovelei/ggg/app/command"
 	"github.com/reallovelei/ggg/app/web"
 	"github.com/reallovelei/ggg/framework"
-	distributed "github.com/reallovelei/ggg/framework/provider/distribute"
-
 	"github.com/reallovelei/ggg/framework/provider/app"
+	"github.com/reallovelei/ggg/framework/provider/env"
 	"github.com/reallovelei/ggg/framework/provider/kernel"
 )
 
@@ -17,7 +16,9 @@ func main() {
 	// 绑定服务提供者
 	container.Bind(&app.GGGAppProvider{})
 
-	container.Bind(&distributed.LocalDistributedProvider{})
+	container.Bind(&env.GGGEnvProvider{})
+	//container.Bind(&distributed.LocalDistributedProvider{})
+	//	container.Bind(&config.GGGConfigProvider{})
 
 	if engine, err := web.NewHttpEngine(); err == nil {
 		container.Bind(&kernel.GGGKernelProvider{HttpEngine: engine})

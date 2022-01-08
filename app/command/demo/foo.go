@@ -1,7 +1,9 @@
 package demo
 
 import (
+	"fmt"
 	"github.com/reallovelei/ggg/framework/cobra"
+	"github.com/reallovelei/ggg/framework/contract"
 	"log"
 )
 
@@ -20,6 +22,13 @@ var FooCommand = &cobra.Command{
 	Aliases: []string{"fo", "f"},
 	Example: "foo命令的例子",
 	RunE: func(c *cobra.Command, args []string) error {
+		configService := c.GetContainer().MustMake(contract.ConfigKey).(contract.Config)
+		envService := c.GetContainer().MustMake(contract.EnvKey).(contract.Env)
+
+		fmt.Println("APP_ENV: ", envService.Get("APP_ENV"))
+		fmt.Println("FOO_ENV: ", envService.Get("FOO_ENV"))
+		fmt.Println("config url:", configService.GetString("app.url"))
+
 		//container := c.GetContainer()
 		log.Println("This is Demo Command")
 		//log.Println(container)
@@ -35,8 +44,8 @@ var Foo1Command = &cobra.Command{
 	Aliases: []string{"fo1", "f1"},
 	Example: "foo1命令的例子",
 	RunE: func(c *cobra.Command, args []string) error {
-		//container := c.GetContainer()
-		log.Println("This is Demo1 Command")
+		container := c.GetContainer()
+		log.Println("This is Demo1 Command", container)
 		return nil
 	},
 }

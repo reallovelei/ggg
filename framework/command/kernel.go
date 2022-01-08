@@ -5,6 +5,12 @@ import (
 )
 
 func AddKernelCommands(root *cobra.Command) {
+	// app Command
 	root.AddCommand(initAppCommand())
+	// env
+	root.AddCommand(initEnvCommand())
+	// cron Command
 	root.AddCommand(initCronCommand())
+	// config
+	root.AddCommand(initConfigCommand())
 }

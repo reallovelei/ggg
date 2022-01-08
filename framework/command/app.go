@@ -2,6 +2,7 @@ package command
 
 import (
 	"context"
+	"fmt"
 	"github.com/reallovelei/ggg/framework/cobra"
 	"github.com/reallovelei/ggg/framework/contract"
 	"log"
@@ -15,6 +16,7 @@ import (
 var appCommand = &cobra.Command{
 	Use:   "app",
 	Short: "业务应用控制命令",
+	Long:  "业务应用控制命令，包含业务启动，关闭，重启，查询等功能",
 	RunE: func(c *cobra.Command, args []string) error {
 		// 打印帮助文档
 		c.Help()
@@ -22,11 +24,17 @@ var appCommand = &cobra.Command{
 	},
 }
 
+func initAppCommand() *cobra.Command {
+	appCommand.AddCommand(appStartCommand)
+	return appCommand
+}
+
 // appStartCommand 启动一个Web服务
 var appStartCommand = &cobra.Command{
 	Use:   "start",
 	Short: "启动一个Web服务",
 	RunE: func(c *cobra.Command, args []string) error {
+		fmt.Println("app will start")
 		// 从Command中获取服务容器
 		container := c.GetContainer()
 		// 从服务容器中获取kernel的服务实例
@@ -62,9 +70,4 @@ var appStartCommand = &cobra.Command{
 
 		return nil
 	},
-}
-
-func initAppCommand() *cobra.Command {
-	appCommand.AddCommand(appStartCommand)
-	return appCommand
 }

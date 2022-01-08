@@ -4,12 +4,13 @@ const (
 	EnvProd = "prod"
 	EnvTest = "test"
 	EnvDev  = "dev"
-	EnvKey  = "ggg:env"
+
+	EnvKey = "ggg:env"
 )
 
 // Env 定义环境变量服务
 type Env interface {
-	// AppEnv 获取当前的环境，建议分为 dev/test/prod
+	// AppEnv 获取当前的环境，建议分为 dev/test/prod  这个环境变量代表当前应用所在的环境
 	AppEnv() string
 
 	// IsExist 判断一个环境变量是否有被设置
