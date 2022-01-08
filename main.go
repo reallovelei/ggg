@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github.com/reallovelei/ggg/app/command"
 	"github.com/reallovelei/ggg/app/web"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/provider/app"
+	"github.com/reallovelei/ggg/framework/provider/config"
 	"github.com/reallovelei/ggg/framework/provider/env"
 	"github.com/reallovelei/ggg/framework/provider/kernel"
 )
@@ -17,8 +19,9 @@ func main() {
 	container.Bind(&app.GGGAppProvider{})
 
 	container.Bind(&env.GGGEnvProvider{})
+	fmt.Println("-----")
 	//container.Bind(&distributed.LocalDistributedProvider{})
-	//	container.Bind(&config.GGGConfigProvider{})
+	container.Bind(&config.GGGConfigProvider{})
 
 	if engine, err := web.NewHttpEngine(); err == nil {
 		container.Bind(&kernel.GGGKernelProvider{HttpEngine: engine})

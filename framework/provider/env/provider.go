@@ -10,7 +10,7 @@ type GGGEnvProvider struct {
 }
 
 func (provider *GGGEnvProvider) Register(c framework.Container) framework.NewInstance {
-	return NewEnv
+	return NewGGGEnv
 }
 
 func (provider *GGGEnvProvider) Boot(c framework.Container) error {

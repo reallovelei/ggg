@@ -5,6 +5,7 @@ import (
 	errors2 "errors"
 	"fmt"
 	"github.com/fsnotify/fsnotify"
+	"github.com/mitchellh/mapstructure"
 	"github.com/pkg/errors"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/contract"
@@ -16,6 +17,7 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+	"time"
 )
 
 // GGGConfig  表示ggg框架的配置文件服务
@@ -183,4 +185,105 @@ func NewGGGConfig(params ...interface{}) (interface{}, error) {
 	}()
 
 	return conf, nil
+}
+
+func searchMap(source map[string]interface{}, path []string) interface{} {
+	if len(path) == 0 {
+		return source
+	}
+	// 判断是否有下个路径
+	next, ok := source[path[0]]
+
+	if ok {
+		if len(path) == 1 {
+			return next
+		}
+
+		switch next.(type) {
+		case map[interface{}]interface{}:
+			// 如果是 interface的map, 使用cast 进行下 value 的转换
+			return searchMap(cast.ToStringMap(next), path[1:])
+
+		case map[string]interface{}:
+			// 如果是map[string], 直接循环调用
+			return searchMap(next.(map[string]interface{}), path[1:])
+
+		default:
+			// 否则 return nil
+			return nil
+		}
+	}
+	return nil
+}
+
+// 通过path来获取某个配置项
+func (conf *GGGConfig) find(key string) interface{} {
+	conf.lock.RLock()
+	defer conf.lock.RUnlock()
+	return searchMap(conf.confMaps, strings.Split(key, conf.keyDelim))
+}
+
+// IsExist check setting is exist
+func (conf *GGGConfig) IsExist(key string) bool {
+	return conf.find(key) != nil
+}
+
+// Get 获取某个配置项
+func (conf *GGGConfig) Get(key string) interface{} {
+	return conf.find(key)
+}
+
+// GetBool 获取bool类型配置
+func (conf *GGGConfig) GetBool(key string) bool {
+	return cast.ToBool(conf.find(key))
+}
+
+// GetInt 获取int类型配置
+func (conf *GGGConfig) GetInt(key string) int {
+	return cast.ToInt(conf.find(key))
+}
+
+// GetFloat64 get float64
+func (conf *GGGConfig) GetFloat64(key string) float64 {
+	return cast.ToFloat64(conf.find(key))
+}
+
+// GetTime get time type
+func (conf *GGGConfig) GetTime(key string) time.Time {
+	return cast.ToTime(conf.find(key))
+}
+
+// GetString get string typen
+func (conf *GGGConfig) GetString(key string) string {
+	return cast.ToString(conf.find(key))
+}
+
+// GetIntSlice get int slice type
+func (conf *GGGConfig) GetIntSlice(key string) []int {
+	return cast.ToIntSlice(conf.find(key))
+}
+
+// GetStringSlice get string slice type
+func (conf *GGGConfig) GetStringSlice(key string) []string {
+	return cast.ToStringSlice(conf.find(key))
+}
+
+// GetStringMap get map which key is string, value is interface
+func (conf *GGGConfig) GetStringMap(key string) map[string]interface{} {
+	return cast.ToStringMap(conf.find(key))
+}
+
+// GetStringMapString get map which key is string, value is string
+func (conf *GGGConfig) GetStringMapString(key string) map[string]string {
+	return cast.ToStringMapString(conf.find(key))
+}
+
+// GetStringMapStringSlice get map which key is string, value is string slice
+func (conf *GGGConfig) GetStringMapStringSlice(key string) map[string][]string {
+	return cast.ToStringMapStringSlice(conf.find(key))
+}
+
+// Load a config to a struct, val should be an pointer
+func (conf *GGGConfig) Load(key string, val interface{}) error {
+	return mapstructure.Decode(conf.find(key), val)
 }

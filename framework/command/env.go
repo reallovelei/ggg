@@ -8,6 +8,7 @@ import (
 )
 
 func initEnvCommand() *cobra.Command {
+	fmt.Println("initEnvCommand")
 	envCommand.AddCommand(envListCommand)
 	return envCommand
 }

@@ -60,12 +60,14 @@ func (ggg *GGGContainer) PrintProviders() []string {
 func (ggg *GGGContainer) Bind(provider ServiceProvider) error {
 	// Bind 是写操作, 所以一开头先加上 一把写锁。 RLock是读锁。
 	ggg.lock.Lock()
-	defer ggg.lock.Unlock()
-	key := provider.Name()
 
+	key := provider.Name()
 	// 修改 providers 这个字段，它的 key 为关键字，value 为注册的 ServiceProvider。
 	ggg.providers[key] = provider
 
+	ggg.lock.Unlock()
+
+	fmt.Println("privider Name:", key, ggg.providers)
 	// if provider is not defer
 	// 如果这个服务实例要延迟实例化，即等到第一次 make 的时候再实例化，那么在 Bind 操作的时候，就什么都不需要做。
 	// 如果不是延迟实例化 就需要做如下事情
@@ -74,13 +76,22 @@ func (ggg *GGGContainer) Bind(provider ServiceProvider) error {
 		if err := provider.Boot(ggg); err != nil {
 			return err
 		}
+
+		fmt.Println("privider 1 Name:", key)
 		// 实例化方法
 		params := provider.Params(ggg)
+
+		fmt.Println("privider 2 Name:", key)
 		method := provider.Register(ggg)
+
+		fmt.Println("privider 3 Name:", key)
 		instance, err := method(params...)
 		if err != nil {
+			fmt.Println("privider ERROR:", err.Error())
 			return errors.New(err.Error())
 		}
+
+		fmt.Println("privider 4 Name:", key)
 		ggg.instances[key] = instance
 	}
 
