@@ -48,6 +48,8 @@ func (conf *GGGConfig) loadConfigFile(path string, file string) error {
 	conf.lock.Lock()
 	defer conf.lock.Unlock()
 
+	fmt.Println("loadConfigFile file:", file)
+
 	//  判断文件是否以yaml或者yml作为后缀
 	s := strings.Split(file, ".")
 	if len(s) == 2 && (s[1] == "yaml" || s[1] == "yml") {
@@ -70,7 +72,7 @@ func (conf *GGGConfig) loadConfigFile(path string, file string) error {
 		conf.confMaps[name] = c
 		conf.confRaws[name] = bf
 
-		fmt.Println(conf.confMaps)
+		fmt.Println("loadConfigFile 2", conf.confMaps)
 		// 读取app.path中的信息，更新app对应的folder
 		if name == "app" && conf.c.IsBind(contract.AppKey) {
 			if p, ok := c["path"]; ok {
@@ -110,7 +112,7 @@ func NewGGGConfig(params ...interface{}) (interface{}, error) {
 	conf := &GGGConfig{
 		c:        container,
 		path:     envPath,
-		keyDelim: "",
+		keyDelim: ".",
 		lock:     sync.RWMutex{},
 		envMaps:  envMaps,
 		confMaps: map[string]interface{}{},
@@ -220,6 +222,7 @@ func searchMap(source map[string]interface{}, path []string) interface{} {
 func (conf *GGGConfig) find(key string) interface{} {
 	conf.lock.RLock()
 	defer conf.lock.RUnlock()
+	// fmt.Println("find", conf.envMaps)
 	return searchMap(conf.confMaps, strings.Split(key, conf.keyDelim))
 }
 
@@ -255,6 +258,7 @@ func (conf *GGGConfig) GetTime(key string) time.Time {
 
 // GetString get string typen
 func (conf *GGGConfig) GetString(key string) string {
+	fmt.Println("find", key, conf.find(key))
 	return cast.ToString(conf.find(key))
 }
 

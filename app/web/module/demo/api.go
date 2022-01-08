@@ -36,8 +36,12 @@ func NewDemoApi() *DemoApi {
 // @Router /demo/demo [get]
 func (api *DemoApi) Demo(c *gin.Context) {
 	configService := c.MustMake(contract.ConfigKey).(contract.Config)
-	pwd := configService.GetString("app.mysql.password")
-	c.JSON(200, pwd)
+	// password := configService.GetString("database.mysql.password")
+	// pwd := configService.GetString("app.mysql.password")
+
+	url := configService.GetString("app.url")
+
+	c.JSON(200, url)
 }
 
 // Demo2  for godoc

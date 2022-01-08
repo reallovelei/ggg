@@ -67,7 +67,7 @@ func (ggg *GGGContainer) Bind(provider ServiceProvider) error {
 
 	ggg.lock.Unlock()
 
-	fmt.Println("privider Name:", key, ggg.providers)
+	// fmt.Println("privider Name:", key, ggg.providers)
 	// if provider is not defer
 	// 如果这个服务实例要延迟实例化，即等到第一次 make 的时候再实例化，那么在 Bind 操作的时候，就什么都不需要做。
 	// 如果不是延迟实例化 就需要做如下事情
@@ -77,14 +77,12 @@ func (ggg *GGGContainer) Bind(provider ServiceProvider) error {
 			return err
 		}
 
-		fmt.Println("privider 1 Name:", key)
 		// 实例化方法
 		params := provider.Params(ggg)
 
-		fmt.Println("privider 2 Name:", key)
 		method := provider.Register(ggg)
 
-		fmt.Println("privider 3 Name:", key)
+		// fmt.Println("privider 3 Name:", key)
 		instance, err := method(params...)
 		if err != nil {
 			fmt.Println("privider ERROR:", err.Error())
