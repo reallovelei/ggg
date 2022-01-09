@@ -10,7 +10,7 @@ path:
 
 mysql:
     hostname: 127.0.0.1
-    username: yejianfeng
-    password: 123
+    username: root
+    password:
     timeout: 1
     readtime: 2.3
