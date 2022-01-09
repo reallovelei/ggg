@@ -5,6 +5,7 @@ const AppKey = "ggg:app"
 
 // App 定义接口
 type App interface {
+	// 每个应用生成一个自己的AppId, 用于分布式 选择不同的app来执行任务。
 	AppID() string
 	// Version 定义当前版本
 	Version() string
