@@ -6,7 +6,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/gohade/hade/framework/gin"
+	"github.com/reallovelei/ggg/framework/gin"
 )
 
 const INDEX = "index.html"

@@ -1,0 +1,22 @@
+conn_max_idle: 10 # 通用配置，连接池最大空闲连接数
+conn_max_open: 100 # 通用配置，连接池最大连接数
+conn_max_lifetime: 1h # 通用配置，连接数最大生命周期
+protocol: tcp # 通用配置，传输协议
+loc: Local # 通用配置，时区
+
+default:
+    write_timeout: 2s
+    read_timeout: 2s
+    driver: mysql # 连接驱动
+    dsn: "" # dsn，如果设置了dsn, 以下的所有设置都不生效
+    host: 10.90.73.43 # ip地址
+    port: 2100 # 端口
+    database: xes_push # 数据库
+    username: other_rw # 用户名
+    password: "DA65d357D8dd4666bf4fAbfD6624f139" # 密码
+    charset: utf8mb4
+    collation: utf8mb4_unicode_ci
+    parse_time: true # 是否解析时间
+    protocol: tcp # 传输协议
+    loc: Local # 时区
+    timeout: 10s

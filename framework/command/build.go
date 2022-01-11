@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/reallovelei/ggg/framework/cobra"
 	"log"
+	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 func initBuildCommand() *cobra.Command {
@@ -57,8 +59,13 @@ var buildFrontendCommand = &cobra.Command{
 			log.Fatalln("请安装npm在你的PATH路径下")
 		}
 
+		curPath, _ := os.Executable()
+		curDir := filepath.Dir(curPath)
+		//        fmt.Println("buildPath:", curPath)
+		fmt.Println("frontDir:", curDir+"/front")
+
 		// 进到前端项目目录
-		cmd := exec.Command("cd", "./front")
+		cmd := exec.Command("cd", curDir+"/front")
 		errCd := cmd.Run()
 		if errCd != nil {
 			fmt.Println("cd error", errCd)
@@ -77,6 +84,11 @@ var buildFrontendCommand = &cobra.Command{
 		// 打印输出
 		fmt.Print(string(out))
 		fmt.Println("=============  前端编译成功 ============")
+
+		path, _ = os.Executable()
+		dir := filepath.Dir(path)
+		fmt.Println("buildPath:", path)
+		fmt.Println("buildDir:", dir)
 		return nil
 	},
 }

@@ -27,9 +27,9 @@ error 级别之上，我们把导致程序崩溃和导致请求结束的错误�
 ##
 ```
 // 编译
-编译前端  ./hade build frontend
-编译后端  ./hade build backend
-同时编译前后端 ./hade build all
+编译前端  ./ggg build frontend
+编译后端  ./ggg build backend
+同时编译前后端 ./ggg build all
 
 // 运行 http
 ./ggg app start

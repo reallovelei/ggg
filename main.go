@@ -9,6 +9,8 @@ import (
 	distributed "github.com/reallovelei/ggg/framework/provider/distribute"
 	"github.com/reallovelei/ggg/framework/provider/env"
 	"github.com/reallovelei/ggg/framework/provider/kernel"
+	"github.com/reallovelei/ggg/framework/provider/log"
+	"github.com/reallovelei/ggg/framework/provider/orm"
 )
 
 func main() {
@@ -23,6 +25,9 @@ func main() {
 	container.Bind(&distributed.LocalDistributedProvider{})
 	container.Bind(&config.GGGConfigProvider{})
 
+	container.Bind(&log.GGGLogServiceProvider{})
+
+	container.Bind(&orm.GormProvider{})
 	if engine, err := web.NewHttpEngine(); err == nil {
 		container.Bind(&kernel.GGGKernelProvider{HttpEngine: engine})
 	}

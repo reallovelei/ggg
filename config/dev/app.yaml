@@ -8,9 +8,3 @@ path:
     log_folder: "/Users/Ben/work/wangxiao/ggg-frame/log/"
     runtime_folder: "/Users/Ben/work/wangxiao/ggg-frame/runtime/"
 
-mysql:
-    hostname: 127.0.0.1
-    username: root
-    password:
-    timeout: 1
-    readtime: 2.3
