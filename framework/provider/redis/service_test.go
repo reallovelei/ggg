@@ -16,9 +16,9 @@
 //	container.Bind(&log.GGGLogServiceProvider{})
 //
 //	Convey("test get client", t, func() {
-//		hadeRedis, err := NewGGGRedis(container)
+//		GGGRedis, err := NewGGGRedis(container)
 //		So(err, ShouldBeNil)
-//		service, ok := hadeRedis.(*GGGRedis)
+//		service, ok := GGGRedis.(*GGGRedis)
 //		So(ok, ShouldBeTrue)
 //		client, err := service.GetClient(WithConfigPath("redis.write"))
 //		So(err, ShouldBeNil)

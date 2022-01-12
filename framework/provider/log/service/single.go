@@ -17,8 +17,8 @@ type GGGSingleLog struct {
 	fd     *os.File
 }
 
-// NewHadeSingleLog params sequence: level, ctxFielder, Formatter, map[string]interface(folder/file)
-func NewHadeSingleLog(params ...interface{}) (interface{}, error) {
+// NewGGGSingleLog params sequence: level, ctxFielder, Formatter, map[string]interface(folder/file)
+func NewGGGSingleLog(params ...interface{}) (interface{}, error) {
 	c := params[0].(framework.Container)
 	level := params[1].(contract.LogLevel)
 	ctxFielder := params[2].(contract.CtxFielder)

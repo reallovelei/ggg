@@ -150,7 +150,7 @@ func (ctx *Context) DefaultQueryStringSlice(key string, def []string) ([]string,
 // 路由匹配中带的参数
 // 形如 /book/:id
 func (ctx *Context) DefaultParamInt(key string, def int) (int, bool) {
-	if val := ctx.HadeParam(key); val != nil {
+	if val := ctx.GGGParam(key); val != nil {
 		// 通过cast进行类型转换
 		return cast.ToInt(val), true
 	}
@@ -158,42 +158,42 @@ func (ctx *Context) DefaultParamInt(key string, def int) (int, bool) {
 }
 
 func (ctx *Context) DefaultParamInt64(key string, def int64) (int64, bool) {
-	if val := ctx.HadeParam(key); val != nil {
+	if val := ctx.GGGParam(key); val != nil {
 		return cast.ToInt64(val), true
 	}
 	return def, false
 }
 
 func (ctx *Context) DefaultParamFloat64(key string, def float64) (float64, bool) {
-	if val := ctx.HadeParam(key); val != nil {
+	if val := ctx.GGGParam(key); val != nil {
 		return cast.ToFloat64(val), true
 	}
 	return def, false
 }
 
 func (ctx *Context) DefaultParamFloat32(key string, def float32) (float32, bool) {
-	if val := ctx.HadeParam(key); val != nil {
+	if val := ctx.GGGParam(key); val != nil {
 		return cast.ToFloat32(val), true
 	}
 	return def, false
 }
 
 func (ctx *Context) DefaultParamBool(key string, def bool) (bool, bool) {
-	if val := ctx.HadeParam(key); val != nil {
+	if val := ctx.GGGParam(key); val != nil {
 		return cast.ToBool(val), true
 	}
 	return def, false
 }
 
 func (ctx *Context) DefaultParamString(key string, def string) (string, bool) {
-	if val := ctx.HadeParam(key); val != nil {
+	if val := ctx.GGGParam(key); val != nil {
 		return cast.ToString(val), true
 	}
 	return def, false
 }
 
 // 获取路由参数
-func (ctx *Context) HadeParam(key string) interface{} {
+func (ctx *Context) GGGParam(key string) interface{} {
 	if val, ok := ctx.Params.Get(key); ok {
 		return val
 	}
