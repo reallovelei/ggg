@@ -6,7 +6,6 @@ import (
 	"github.com/reallovelei/ggg/framework/contract"
 
 	//    "github.com/reallovelei/ggg/app/model"
-	"github.com/reallovelei/ggg/app/dao"
 	"github.com/reallovelei/ggg/framework/gin"
 	"github.com/reallovelei/ggg/framework/provider/orm"
 )
@@ -16,7 +15,6 @@ func (api *DemoApi) DemoOrm(c *gin.Context) {
 	logger := c.MustMakeLog()
 	logger.Info(c, "request start", nil)
 
-	dao := c.MustMake()
 
 	// 初始化一个orm.DB
 	ormService := c.MustMake(contract.ORMKey).(contract.ORMService)
