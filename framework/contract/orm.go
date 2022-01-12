@@ -52,7 +52,7 @@ type DBConfig struct {
 
 // FormatDsn 生成dsn
 func (conf *DBConfig) FormatDsn() (string, error) {
-	fmt.Printf("formatDsn start!~ conf: %+v \n", conf)
+	//fmt.Printf("formatDsn start!~ conf: %+v \n", conf)
 
 	port := strconv.Itoa(conf.Port)
 
@@ -90,7 +90,7 @@ func (conf *DBConfig) FormatDsn() (string, error) {
 		ParseTime:            conf.ParseTime,
 		AllowNativePasswords: conf.AllowNativePasswords,
 	}
-	fmt.Printf("conf:%+v \n", driverConf)
+	// fmt.Printf("conf:%+v \n", driverConf)
 
 	return driverConf.FormatDSN(), nil
 }

@@ -1,10 +1,12 @@
 package demo
 
 import (
+	"fmt"
 	"github.com/reallovelei/ggg/app/model"
 	"github.com/reallovelei/ggg/framework/contract"
 
 	//    "github.com/reallovelei/ggg/app/model"
+	"github.com/reallovelei/ggg/app/dao"
 	"github.com/reallovelei/ggg/framework/gin"
 	"github.com/reallovelei/ggg/framework/provider/orm"
 )
@@ -14,9 +16,11 @@ func (api *DemoApi) DemoOrm(c *gin.Context) {
 	logger := c.MustMakeLog()
 	logger.Info(c, "request start", nil)
 
+	dao := c.MustMake()
+
 	// 初始化一个orm.DB
-	gormService := c.MustMake(contract.ORMKey).(contract.ORMService)
-	db, err := gormService.GetDB(orm.WithConfigPath("database.default"))
+	ormService := c.MustMake(contract.ORMKey).(contract.ORMService)
+	db, err := ormService.GetDB(orm.WithConfigPath("database.default"))
 	if err != nil {
 		logger.Error(c, err.Error(), nil)
 		c.AbortWithError(50001, err)
@@ -53,14 +57,19 @@ func (api *DemoApi) DemoOrm(c *gin.Context) {
 	//    "id":  user.ID,
 	//    "err": err,
 	//})
-	// 查询一条数据
-	queryPL := &model.PushLogs{PushId: "303235701252063232"}
 
-	err = db.First(queryPL).Error
-	logger.Info(c, "query pushlog", map[string]interface{}{
-		"err":  err,
-		"name": queryPL.Name,
-	})
+	//list := make([]model.PushLogs, 10)
+
+	db.Exec("DELETE FROM push_logs where updated_at < ?", "2022-02-10")
+	fmt.Println("after delete")
+
+	// 查询一条数据
+	// queryPL := &model.PushLogs{PushId: "303235701252063232"}
+	// err = db.First(queryPL).Error
+	// logger.Info(c, "query pushlog", map[string]interface{}{
+	//	"err":  err,
+	//	"name": queryPL.Name,
+	// })
 
 	c.JSON(200, "ok")
 }
