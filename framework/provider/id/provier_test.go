@@ -10,7 +10,7 @@ import (
 )
 
 func TestConsoleLog_Normal(t *testing.T) {
-	Convey("test hade console log normal case", t, func() {
+	Convey("test ggg console log normal case", t, func() {
 		c := tests.InitBaseContainer()
 		c.Bind(&config.GGGConfigProvider{})
 

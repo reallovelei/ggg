@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-// LocalDistributedService 代表hade框架的App实现
+// LocalDistributedService 代表ggg框架的App实现
 type LocalDistributedService struct {
 	container framework.Container // 服务容器
 }

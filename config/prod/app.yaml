@@ -5,7 +5,7 @@ swagger_open: true
 dev_fresh: 1
 
 path:
-    storage: "/hade_sts/testdata/storage/"
+    storage: "/reallove/testdata/storage/"
     log: ""
     pid: ""
     cache: ""
