@@ -50,11 +50,11 @@ func (g GGGApp) LogPath() string {
 }
 
 func (g GGGApp) HttpPath() string {
-	return filepath.Join(g.BasePath(), "web")
+	return filepath.Join(g.BasePath(), "app", "web")
 }
 
 func (g GGGApp) ConsolePath() string {
-	return filepath.Join(g.BasePath(), "console")
+	return filepath.Join(g.BasePath(), "app", "command")
 }
 
 func (g GGGApp) StoragePath() string {
@@ -63,7 +63,10 @@ func (g GGGApp) StoragePath() string {
 
 // ProviderPath 定义业务自己的服务提供者地址
 func (g GGGApp) ProviderPath() string {
-	return filepath.Join(g.BasePath(), "provider")
+	if val, ok := g.configMap["provider_path"]; ok {
+		return val
+	}
+	return filepath.Join(g.BasePath(), "app", "provider")
 }
 
 // MiddlewarePath 定义业务自己定义的中间件
@@ -73,7 +76,7 @@ func (g GGGApp) MiddlewarePath() string {
 
 // CommandPath 定义业务定义的命令
 func (g GGGApp) CommandPath() string {
-	return filepath.Join(g.ConsolePath(), "command")
+	return g.ConsolePath()
 }
 
 // RuntimePath 定义业务的运行中间态信息
