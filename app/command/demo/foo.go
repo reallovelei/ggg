@@ -29,6 +29,11 @@ var FooCommand = &cobra.Command{
 		fmt.Println("FOO_ENV: ", envService.Get("FOO_ENV"))
 		fmt.Println("config url:", configService.GetString("app.url"))
 
+		nums := []int{1, 2, 3, 4, 5, 6}
+		fmt.Println("     len cap   address")
+		fmt.Print("111---", len(nums), cap(nums))
+		fmt.Printf("    %p\n", nums) //0xc4200181e0
+
 		//container := c.GetContainer()
 		log.Println("This is Demo Command")
 		//log.Println(container)
