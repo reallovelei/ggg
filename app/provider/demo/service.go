@@ -5,6 +5,11 @@ import (
 	"github.com/reallovelei/ggg/framework"
 )
 
+const (
+	_selectByUpdate = "SELECT push_id, updated_at FROM push_logs where updated_at < ?"
+	_deleteByUpdate = "DELETE FROM push_logs where updated_at < ?"
+)
+
 // 具体的接口实例
 type DemoService struct {
 	// 实现接口

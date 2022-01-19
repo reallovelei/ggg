@@ -3,6 +3,7 @@ package app
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"github.com/google/uuid"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/util"
@@ -41,6 +42,11 @@ func (g GGGApp) BasePath() string {
 
 // ConfigPath  表示配置文件地址
 func (g GGGApp) ConfigPath() string {
+	fmt.Println("configmap:", g.configMap)
+	if val, ok := g.configMap["config_path"]; ok {
+		return val
+	}
+
 	return filepath.Join(g.BasePath(), "config")
 }
 

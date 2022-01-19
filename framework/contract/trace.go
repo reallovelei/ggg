@@ -27,9 +27,9 @@ type TraceContext struct {
 }
 
 type Trace interface {
-	// // SetTraceIDService set TraceID generator, default hadeIDGenerator
+	// // SetTraceIDService set TraceID generator, default gggIDGenerator
 	// SetTraceIDService(IDService)
-	// // SetTraceIDService set SpanID generator, default hadeIDGenerator
+	// // SetTraceIDService set SpanID generator, default gggIDGenerator
 	// SetSpanIDService(IDService)
 
 	// WithContext register new trace to context
