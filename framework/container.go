@@ -89,7 +89,6 @@ func (ggg *GGGContainer) Bind(provider ServiceProvider) error {
 			return errors.New(err.Error())
 		}
 
-		fmt.Println("privider 4 Name:", key)
 		ggg.instances[key] = instance
 	}
 

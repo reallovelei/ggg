@@ -2,7 +2,6 @@ package command
 
 import (
 	"context"
-	"fmt"
 	"github.com/reallovelei/ggg/framework/cobra"
 	"github.com/reallovelei/ggg/framework/contract"
 	"log"
@@ -34,7 +33,6 @@ var appStartCommand = &cobra.Command{
 	Use:   "start",
 	Short: "启动一个Web服务",
 	RunE: func(c *cobra.Command, args []string) error {
-		fmt.Println("app will start")
 		// 从Command中获取服务容器
 		container := c.GetContainer()
 		// 从服务容器中获取kernel的服务实例

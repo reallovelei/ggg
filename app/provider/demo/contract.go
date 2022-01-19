@@ -10,6 +10,7 @@ const DemoKey = "ggg:demo"
 // Demo 服务的接口
 type Service interface {
 	GetAllStudent() []Student
+	DelPushLog()
 }
 
 // Demo 服务接口定义的一个数据结构

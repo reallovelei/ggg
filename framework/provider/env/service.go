@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
-	"fmt"
 	"github.com/reallovelei/ggg/framework/contract"
 	"io"
 	"os"
@@ -31,10 +30,9 @@ func NewGGGEnv(params ...interface{}) (interface{}, error) {
 		return nil, errors.New("NewGGGEnv param error")
 	}
 
-	fmt.Println("will new env")
 	// 读取folder文件
 	envPath := params[0].(string)
-	fmt.Println("will new env path", envPath)
+	// fmt.Println("will new env path", envPath)
 	// 实例化
 	env := &GGGEnv{
 		path: envPath,

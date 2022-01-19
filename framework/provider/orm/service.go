@@ -2,7 +2,6 @@ package orm
 
 import (
 	"context"
-	"fmt"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/contract"
 	"gorm.io/driver/mysql"
@@ -73,7 +72,7 @@ func (app *GGGOrm) GetDB(option ...contract.DBOption) (*gorm.DB, error) {
 	var err error
 	switch config.Driver {
 	case "mysql":
-		fmt.Println("dsn: " + config.Dsn)
+		//		fmt.Println("dsn: " + config.Dsn)
 		db, err = gorm.Open(mysql.Open(config.Dsn), config)
 
 		//case "postgres":
