@@ -34,4 +34,7 @@ type Config interface {
 	GetStringMapStringSlice(key string) map[string][]string
 	// Load 加载配置到某个对象
 	Load(key string, val interface{}) error
+
+	// 获取 字节
+	GetRaw() map[string][]byte
 }
