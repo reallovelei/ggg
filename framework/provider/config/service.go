@@ -71,8 +71,7 @@ func (conf *GGGConfig) loadConfigFile(path string, file string) error {
 
 		conf.confMaps[name] = c
 		conf.confRaws[name] = bf
-
-		// fmt.Println("loadConfigFile 2", conf.confMaps)
+		// fmt.Println("loadConfigFile 2", conf.confRaws)
 		// 读取app.path中的信息，更新app对应的folder
 		if name == "app" && conf.c.IsBind(contract.AppKey) {
 			if p, ok := c["path"]; ok {
@@ -179,7 +178,7 @@ func NewGGGConfig(params ...interface{}) (interface{}, error) {
 
 					// 删除文件
 					if event.Op&fsnotify.Remove == fsnotify.Remove {
-						log.Println("创建文件:", event.Name)
+						log.Println("删除文件:", event.Name)
 						conf.removeConfigFile(folder, fileName)
 					}
 				}
@@ -304,4 +303,8 @@ func (conf *GGGConfig) Load(key string, val interface{}) error {
 	}
 
 	return decoder.Decode(conf.find(key))
+}
+
+func (conf *GGGConfig) GetRaw() map[string][]byte {
+	return conf.confRaws
 }
