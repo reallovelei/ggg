@@ -37,4 +37,6 @@ type Config interface {
 
 	// 获取 字节
 	GetRaw() map[string][]byte
+	// 获取所有
+	GetAllMaps() map[string]interface{}
 }

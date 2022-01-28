@@ -28,7 +28,7 @@ type GGGConfig struct {
 	lock     sync.RWMutex           // 配置文件读写锁
 	envMaps  map[string]string      // 所有的环境变量
 	confMaps map[string]interface{} // 配置文件结构，key为文件名
-	confRaws map[string][]byte      // 配置文件的原始信息
+	confRaws map[string][]byte      // 配置文件的原始信息的map映射
 }
 
 func replaceMap(content []byte, maps map[string]string) []byte {
@@ -303,6 +303,10 @@ func (conf *GGGConfig) Load(key string, val interface{}) error {
 	}
 
 	return decoder.Decode(conf.find(key))
+}
+
+func (conf *GGGConfig) GetAllMaps() map[string]interface{} {
+	return conf.confMaps
 }
 
 func (conf *GGGConfig) GetRaw() map[string][]byte {
