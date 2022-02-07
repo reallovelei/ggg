@@ -2,7 +2,6 @@ package app
 
 import (
 	"errors"
-	"flag"
 	"github.com/google/uuid"
 	"github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/util"
@@ -99,14 +98,15 @@ func NewApp(params ...interface{}) (interface{}, error) {
 	if len(params) != 2 {
 		return nil, errors.New("param error")
 	}
+
 	// 有两个参数，一个是容器，一个是 basePath
 	container := params[0].(framework.Container)
 	basePath := params[1].(string)
 	// 如果没有设置，则使用参数
-	if basePath == "" {
-		flag.StringVar(&basePath, "base_path", "", "base_path参数, 默认为当前路径")
-		flag.Parse()
-	}
+	//if basePath == "" {
+	//	flag.StringVar(&basePath, "base_path", "", "base_path参数, 默认为当前路径")
+	//	flag.Parse()
+	//}
 
 	appId := uuid.New().String()
 	configMap := map[string]string{}
