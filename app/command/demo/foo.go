@@ -1,10 +1,11 @@
 package demo
 
 import (
-	"fmt"
-	"github.com/reallovelei/ggg/framework/cobra"
-	"github.com/reallovelei/ggg/framework/contract"
-	"log"
+    "fmt"
+    "github.com/reallovelei/ggg/framework/cobra"
+    "github.com/reallovelei/ggg/framework/contract"
+    "github.com/reallovelei/ggg/framework/provider/log/service"
+    "log"
 )
 
 // InitFoo 初始化Foo命令
@@ -25,6 +26,7 @@ var FooCommand = &cobra.Command{
 		configService := c.GetContainer().MustMake(contract.ConfigKey).(contract.Config)
 		envService := c.GetContainer().MustMake(contract.EnvKey).(contract.Env)
 
+        logger := c.GetContainer().MustMake(contract.LogKey).(*service.GGGConsoleLog)
 		fmt.Println("APP_ENV: ", envService.Get("APP_ENV"))
 		fmt.Println("FOO_ENV: ", envService.Get("FOO_ENV"))
 		fmt.Println("config url:", configService.GetString("app.url"))
@@ -34,8 +36,9 @@ var FooCommand = &cobra.Command{
 		fmt.Print("111---", len(nums), cap(nums))
 		fmt.Printf("    %p\n", nums) //0xc4200181e0
 
-		//container := c.GetContainer()
-		log.Println("This is Demo Command")
+
+		logger.Info(c.Context(),"This is Demo Command", nil)
+
 		//log.Println(container)
 		return nil
 	},
@@ -50,7 +53,11 @@ var Foo1Command = &cobra.Command{
 	Example: "foo1命令的例子",
 	RunE: func(c *cobra.Command, args []string) error {
 		container := c.GetContainer()
-		log.Println("This is Demo1 Command", container)
+
+        appService := container.MustMake(contract.AppKey).(contract.App)
+        appService.LogPath()
+
+		log.Println("This is Demo1 Command  LogPath:"+appService.LogPath(), container)
 		return nil
 	},
 }

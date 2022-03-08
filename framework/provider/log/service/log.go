@@ -1,13 +1,17 @@
 package service
 
 import (
-	"context"
-	"github.com/reallovelei/ggg/framework"
+    "bytes"
+    "context"
+    "fmt"
+    "github.com/reallovelei/ggg/framework"
 	"github.com/reallovelei/ggg/framework/contract"
 	"github.com/reallovelei/ggg/framework/provider/log/formatter"
 	"io"
 	pkgLog "log"
-	"time"
+    "runtime"
+    "strconv"
+    "time"
 )
 
 // GGGLog 的通用实例
@@ -19,10 +23,28 @@ type GGGLog struct {
 	output     io.Writer           // 输出
 	c          framework.Container // 容器
 }
+var goroutineSpace = []byte("goroutine ")
 
 // IsLevelEnable 判断这个级别是否可以打印
 func (log *GGGLog) IsLevelEnable(level contract.LogLevel) bool {
 	return level <= log.level
+}
+
+func curGoroutineID() uint64 {
+    b := make([]byte, 64)
+    b = b[:runtime.Stack(b, false)]
+    // Parse the 4707 out of "goroutine 4707 ["
+    b = bytes.TrimPrefix(b, goroutineSpace)
+    i := bytes.IndexByte(b, ' ')
+    if i < 0 {
+        panic(fmt.Sprintf("No space found in %q", b))
+    }
+    b = b[:i]
+    n, err := strconv.ParseUint(string(b), 10, 64)
+    if err != nil {
+        panic(fmt.Sprintf("Failed to parse goroutine ID out of %q: %v", b, err))
+    }
+    return n
 }
 
 // logf 为打印日志的核心函数
@@ -31,6 +53,15 @@ func (log *GGGLog) logf(level contract.LogLevel, ctx context.Context, msg string
 	if !log.IsLevelEnable(level) {
 		return nil
 	}
+
+    pc, _, line, ok := runtime.Caller(1)
+    if !ok {
+        panic("not found caller")
+    }
+
+    // 方法名
+    funcName := runtime.FuncForPC(pc).Name()
+    gid := curGoroutineID()
 
 	// 使用ctxFielder 获取context中的信息
 	fs := fields
@@ -59,6 +90,9 @@ func (log *GGGLog) logf(level contract.LogLevel, ctx context.Context, msg string
 	if log.formatter == nil {
 		log.formatter = formatter.TextFormatter
 	}
+
+	msg = fmt.Sprintf("\ngid:%d %s() line:%d \n%s", gid, funcName, line, msg)
+
 	ct, err := log.formatter(level, time.Now(), msg, fs)
 	if err != nil {
 		return err
